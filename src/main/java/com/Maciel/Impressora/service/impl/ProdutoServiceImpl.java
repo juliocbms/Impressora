@@ -97,7 +97,7 @@ public  class ProdutoServiceImpl implements ProdutoService {
         }
 
         // Validação do peso
-        if (produto.getPeso() == null || produto.getPeso().compareTo(BigDecimal.ZERO) <= 0) {
+        if (produto.getPeso() == null || produto.getPeso().compareTo(BigDecimal.ZERO) < 0) {
             throw new RegraNegocioException("Informe um peso válido para o produto.");
         }
 

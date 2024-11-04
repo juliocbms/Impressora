@@ -23,8 +23,6 @@ public interface ProdutoService {
 
     Optional<Produto> obterPorId(Long id);
 
-
-
     List<Produto> obterPorNome(String nomeProduto);
 
     Optional<Produto> obterPorCodigo(Integer codigoProduto);

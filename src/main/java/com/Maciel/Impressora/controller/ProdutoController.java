@@ -60,13 +60,14 @@ public class ProdutoController {
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
-        return service.obterPorId(id).map(entidade -> {
+    @DeleteMapping("/deletar/{codigoProduto}")
+    public ResponseEntity<?> deletar(@PathVariable("codigoProduto") Integer codigoProduto) {
+        return service.obterPorCodigo(codigoProduto).map(entidade -> {
             service.deletar(entidade);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }).orElseGet(() -> new ResponseEntity<>("Produto não encontrado na base de dados", HttpStatus.BAD_REQUEST));
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Produto> obterPorId(@PathVariable("id") Long id) {
@@ -79,20 +80,48 @@ public class ProdutoController {
         return ResponseEntity.ok(produto.get());
     }
 
+    @GetMapping("/buscarPorCodigo")
+    public ResponseEntity<Optional<Produto>> buscarPorCodigo(@RequestParam Integer codigoProduto) {
+        System.out.println("Código do produto recebido na API: " + codigoProduto); // Log para verificar o código recebido
+        Optional<Produto> produto = service.obterPorCodigo(codigoProduto);
+        if (produto.isPresent()) {
+            return ResponseEntity.ok(produto);
+        } else {
+            System.out.println("Produto com código " + codigoProduto + " não encontrado."); // Log para produto não encontrado
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    @PutMapping("/atualizar/{codigoProduto}")
+    public ResponseEntity<?> atualizarProduto(@PathVariable Integer codigoProduto, @RequestBody ProdutoDTO dto) {
+        try {
+            // Tente encontrar o produto existente pelo código
+            Optional<Produto> produtoExistente = service.obterPorCodigo(codigoProduto);
+
+            if (!produtoExistente.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+            }
+
+            // Converte o DTO e mantém o ID do produto existente
+            Produto entidade = converte(dto);
+            entidade.setId(produtoExistente.get().getId()); // Mantém o ID do produto existente
+
+            // Atualiza a entidade
+            entidade = service.atualizar(entidade);
+
+            return ResponseEntity.ok(entidade);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Produto>> buscarPorNome(@RequestParam String nomeProduto) {
         List<Produto> produtos = service.obterPorNome(nomeProduto);
         return ResponseEntity.ok(produtos);
     }
-
-    @GetMapping("/buscarPorCodigo/{codigo}")
-    public ResponseEntity<Produto> buscarPorCodigo(@PathVariable Integer codigo) {
-        Optional<Produto> produto = service.obterPorCodigo(codigo);
-        return produto.map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-
     private Produto converte(ProdutoDTO dto) {
         Produto produto = new Produto();
         produto.setCodigoProduto(dto.getCodigoProduto());
