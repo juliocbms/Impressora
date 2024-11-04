@@ -21,6 +21,7 @@ public class ProdutosGUI {
     private String tipo;
     private String NumeroCaixa;
     private String EAN;
+    /*comentario*/
 
 
 }
