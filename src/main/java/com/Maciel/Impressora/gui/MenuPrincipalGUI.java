@@ -10,7 +10,7 @@ public class MenuPrincipalGUI extends JFrame {
         setTitle("Menu Principal");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(850, 450); // Tamanho fixo do JFrame
-        setResizable(false); // Impede o redimensionamento
+        setResizable(false);
 
         // Configurar o layout do JFrame
         setLayout(new GridBagLayout());
@@ -24,45 +24,43 @@ public class MenuPrincipalGUI extends JFrame {
         // Botão Produtos
         JButton btnProduto = new JButton("Produtos");
         btnProduto.setFont(new Font("Arial", Font.BOLD, 14));
-        buttonGbc.gridx = 0; // Coluna 0
-        buttonGbc.gridy = 0; // Linha 0
-        buttonGbc.insets = new Insets(10, 20, 10, 20); // Espaçamento ao redor do botão
+        buttonGbc.gridx = 0;
+        buttonGbc.gridy = 0;
+        buttonGbc.insets = new Insets(10, 20, 10, 20);
         buttonPanel.add(btnProduto, buttonGbc);
 
         // Botão Etiquetas
         JButton btnEtiqueta = new JButton("Etiquetas");
         btnEtiqueta.setFont(new Font("Arial", Font.BOLD, 14));
-        buttonGbc.gridx = 1; // Coluna 1
-        buttonGbc.gridy = 0; // Linha 0
+        buttonGbc.gridx = 1;
+        buttonGbc.gridy = 0;
         buttonPanel.add(btnEtiqueta, buttonGbc);
 
         // Adicionar o painel de botões ao JFrame
-        gbc.gridx = 0; // Coluna 0
-        gbc.gridy = 0; // Linha 0
-        gbc.weightx = 1.0; // Preenche horizontalmente
-        gbc.weighty = 1.0; // Preenche verticalmente
-        gbc.anchor = GridBagConstraints.CENTER; // Centraliza o painel de botões
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
         add(buttonPanel, gbc);
 
         // Centralizar a janela na tela
         setLocationRelativeTo(null);
-        setVisible(true); // Torna o JFrame visível
+        setVisible(true);
 
         btnProduto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Ao clicar, abrir a tela de edição/cadastro de produtos
-                new CadastroProdutosGUI(); // Aqui você chamaria a nova tela
-                dispose(); // Fecha a tela atual, se necessário
+                new CadastroProdutosGUI();
+                dispose();
             }
         });
 
         btnEtiqueta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para abrir a tela de etiquetas
                new EtiquetasGUI();
-                dispose(); // Fecha a tela atual, se necessário
+                dispose();
             }
         });
     }

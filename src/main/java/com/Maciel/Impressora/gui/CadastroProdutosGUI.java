@@ -19,7 +19,7 @@ public class CadastroProdutosGUI extends JFrame {
     private JTextField txtProdutoNome;
     private JTextField txtProdutoCodigo;
     private JTextField txtDescricao;
-    private boolean isEditando = false; // Adiciona controle de edição
+    private boolean isEditando = false;
 
     public CadastroProdutosGUI() {
         setTitle("Gerenciar Produtos");
@@ -42,17 +42,17 @@ public class CadastroProdutosGUI extends JFrame {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnVoltarMenu.setPreferredSize(new Dimension(20, 20));
-                btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-25.png"))); // Corrigido o caminho
-                btnVoltarMenu.revalidate(); // Revalida o botão
-                btnVoltarMenu.repaint(); // Repaint para atualizar a interface
+                btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-25.png")));
+                btnVoltarMenu.revalidate();
+                btnVoltarMenu.repaint();
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-20.png"))); // Corrigido o caminho
+                btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-20.png")));
                 btnVoltarMenu.setPreferredSize(new Dimension(20, 20));
-                btnVoltarMenu.revalidate(); // Revalida o botão
-                btnVoltarMenu.repaint(); // Repaint para atualizar a interface
+                btnVoltarMenu.revalidate();
+                btnVoltarMenu.repaint();
 
 
             }
@@ -70,9 +70,9 @@ public class CadastroProdutosGUI extends JFrame {
         });
 
         JButton btnLimparCampos = new JButton(new ImageIcon(getClass().getResource("/imgs/icons8-vassoura-30.png")));
-        btnLimparCampos.setContentAreaFilled(false); // Remove o fundo do botão
-        btnLimparCampos.setBorderPainted(false);     // Remove as bordas do botão
-        btnLimparCampos.setFocusPainted(false);      // Remove o contorno de foco
+        btnLimparCampos.setContentAreaFilled(false);
+        btnLimparCampos.setBorderPainted(false);
+        btnLimparCampos.setFocusPainted(false);
         btnLimparCampos.setPreferredSize(new Dimension(30, 30));
         btnLimparCampos.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLimparCampos.addActionListener(e -> limparCampos());
@@ -80,45 +80,45 @@ public class CadastroProdutosGUI extends JFrame {
         btnLimparCampos.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnLimparCampos.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-mov-vassoura-30.png"))); // Corrigido o caminho
-                btnLimparCampos.revalidate(); // Revalida o botão
-                btnLimparCampos.repaint(); // Repaint para atualizar a interface
+                btnLimparCampos.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-mov-vassoura-30.png")));
+                btnLimparCampos.revalidate();
+                btnLimparCampos.repaint();
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnLimparCampos.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-vassoura-30.png"))); // Corrigido o caminho
-                btnLimparCampos.revalidate(); // Revalida o botão
-                btnLimparCampos.repaint(); // Repaint para atualizar a interface
+                btnLimparCampos.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-vassoura-30.png")));
+                btnLimparCampos.revalidate();
+                btnLimparCampos.repaint();
             }
         });
 
         JButton btnDeletar = new JButton(new ImageIcon(getClass().getResource("/imgs/icons8-lixo-30.png")));
         btnDeletar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnDeletar.setContentAreaFilled(false); // Remove o fundo do botão
-        btnDeletar.setBorderPainted(false);     // Remove as bordas do botão
-        btnDeletar.setFocusPainted(false);      // Remove o contorno de foco
+        btnDeletar.setContentAreaFilled(false);
+        btnDeletar.setBorderPainted(false);
+        btnDeletar.setFocusPainted(false);
         btnDeletar.setPreferredSize(new Dimension(30, 30));
 
         btnDeletar.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnDeletar.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-mov-lixo-30.png"))); // Corrigido o caminho
-                btnDeletar.revalidate(); // Revalida o botão
-                btnDeletar.repaint(); // Repaint para atualizar a interface
+                btnDeletar.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-mov-lixo-30.png")));
+                btnDeletar.revalidate();
+                btnDeletar.repaint();
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnDeletar.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-lixo-30.png"))); // Corrigido o caminho
-                btnDeletar.revalidate(); // Revalida o botão
-                btnDeletar.repaint(); // Repaint para atualizar a interface
+                btnDeletar.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-lixo-30.png")));
+                btnDeletar.revalidate();
+                btnDeletar.repaint();
             }
         });
 
 
 
-// Adiciona o ActionListener para deletar o produto
+
         btnDeletar.addActionListener(e -> {
             String codigoProduto = txtProdutoCodigo.getText().trim();
             if (codigoProduto.isEmpty()) {
@@ -168,9 +168,9 @@ public class CadastroProdutosGUI extends JFrame {
             definirValoresFixos(produtoDTO);
 
             if (isEditando) {
-                atualizarProduto(produtoDTO); // Chama o método de atualização
+                atualizarProduto(produtoDTO);
             } else {
-                salvarProduto(produtoDTO); // Chama o método de salvar
+                salvarProduto(produtoDTO);
             }
         });
 
@@ -203,7 +203,7 @@ public class CadastroProdutosGUI extends JFrame {
         txtProdutoNome.setText("");
         txtProdutoCodigo.setText("");
         txtDescricao.setText("");
-        isEditando = false; // Resetar o modo de edição
+        isEditando = false;
     }
 
     private void buscarProdutoPorCodigo(String codigo) {

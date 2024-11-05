@@ -35,9 +35,9 @@ public class EtiquetasGUI extends JFrame {
         btnVoltarMenu.setContentAreaFilled(false);
         btnVoltarMenu.setBorderPainted(false);
         btnVoltarMenu.setFocusPainted(false);
-        btnVoltarMenu.setPreferredSize(new Dimension(20, 20)); // Aumentado para melhor visibilidade
+        btnVoltarMenu.setPreferredSize(new Dimension(20, 20));
         btnVoltarMenu.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-20.png"))); // Ícone padrão
+        btnVoltarMenu.setIcon(new ImageIcon(getClass().getResource("/imgs/icons8-voltar-20.png")));
 
         btnVoltarMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -157,8 +157,8 @@ public class EtiquetasGUI extends JFrame {
         gbc.gridx = 2; gbc.gridy = 3; gbc.gridwidth = 2; gbc.anchor = GridBagConstraints.CENTER;
         mainPanel.add(btnImprimir, gbc);
 
-        add(topPanel, BorderLayout.NORTH); // Adiciona o painel superior com o botão de voltar
-        add(mainPanel, BorderLayout.CENTER); // Adiciona o painel principal
+        add(topPanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
         setLocationRelativeTo(null);
         setVisible(true);
     }

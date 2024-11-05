@@ -1,11 +1,16 @@
 package com.Maciel.Impressora.gui;
 
+import com.fazecast.jSerialComm.SerialPort;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class LayoutEtiqueta {
+
+    private static final String CAMINHO_FIXO = "C:\\Users\\julio\\OneDrive\\Área de Trabalho\\Nova pasta\\etiqueta.txt";
+    private static final String NOME_IMPRESSORA = "ZDesigner 105SL 203DPI Virtual";
 
     public static void imprimir(String numeroLayout, ProdutosGUI produtos) {
         switch (numeroLayout) {
@@ -98,7 +103,7 @@ public class LayoutEtiqueta {
 
         comandoImpressao.append("^XZ\n");
 
-        salvarComoZPL(comandoImpressao.toString());
+        ImpressoraZPL.imprimirOuSalvar(comandoImpressao.toString(), NOME_IMPRESSORA);
     }
 
     private static void imprimirLayout2(ProdutosGUI produtos) {
@@ -448,7 +453,7 @@ public class LayoutEtiqueta {
         }
 
 
-        salvarComoZPL(comandoImpressao.toString());
+        ImpressoraZPL.imprimirOuSalvar(comandoImpressao.toString(), NOME_IMPRESSORA);
     }
 
     private static String verificadorEAN128(String ean) {
@@ -464,15 +469,53 @@ public class LayoutEtiqueta {
         return ean + verificador;
     }
 
-    private static void salvarComoZPL(String comandocomandoImpressao) {
-        String caminhoFixo = "C:\\Users\\julio\\OneDrive\\Área de Trabalho\\Nova pasta/etiqueta.txt";
+    public static class ImpressoraZPL {
 
-        try (FileOutputStream fos = new FileOutputStream(new File(caminhoFixo))) {
-            fos.write(comandocomandoImpressao.getBytes());
-            fos.flush();
-            System.out.println("Etiqueta salva em: " + caminhoFixo);
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar etiqueta: " + e.getMessage());
+        private static void imprimirOuSalvar(String comandoZPL, String nomeImpressora) {
+            SerialPort porta = encontrarPortaPorNome(nomeImpressora);
+
+            if (porta == null) {
+                JOptionPane.showMessageDialog(null, "Impressora não encontrada: " + nomeImpressora, "Erro", JOptionPane.ERROR_MESSAGE);
+                salvarComoZPL(comandoZPL);
+                return;
+            }
+
+            if (porta.openPort()) {
+                try {
+                    porta.getOutputStream().write(comandoZPL.getBytes());
+                    porta.getOutputStream().flush();
+                    JOptionPane.showMessageDialog(null, "Comando ZPL enviado para a impressora.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    System.out.println("Erro ao imprimir: " + e.getMessage());
+                    salvarComoZPL(comandoZPL);
+                } finally {
+                    porta.closePort();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível abrir a porta da impressora.", "Erro", JOptionPane.ERROR_MESSAGE);
+                salvarComoZPL(comandoZPL);
+            }
+        }
+
+        private static SerialPort encontrarPortaPorNome(String nomeImpressora) {
+            SerialPort[] portas = SerialPort.getCommPorts();
+            for (SerialPort porta : portas) {
+                if (porta.getDescriptivePortName().equalsIgnoreCase(nomeImpressora)) {
+                    return porta;
+                }
+            }
+            return null;
+        }
+
+        private static void salvarComoZPL(String comandoZPL) {
+            File arquivo = new File(CAMINHO_FIXO);
+            try (FileOutputStream fos = new FileOutputStream(arquivo)) {
+                fos.write(comandoZPL.getBytes());
+                fos.flush();
+                JOptionPane.showMessageDialog(null, "Comando ZPL salvo em " + arquivo.getAbsolutePath(), "Salvo", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao salvar arquivo: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

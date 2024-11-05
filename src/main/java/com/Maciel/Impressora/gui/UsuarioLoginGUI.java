@@ -80,7 +80,6 @@ public class UsuarioLoginGUI extends JFrame {
         String email = emailField.getText();
         String senha = new String(senhaField.getPassword());
 
-        // Criar o objeto DTO com as informações de autenticação
         UsuarioDTO dto = new UsuarioDTO();
         dto.setEmail(email); // Definindo o email
         dto.setSenha(senha); // Definindo a senha
@@ -97,7 +96,7 @@ public class UsuarioLoginGUI extends JFrame {
                 dispose();
             }
         } catch (HttpClientErrorException e) {
-            // Se a resposta do servidor foi um erro, você pode capturar a mensagem de erro do corpo da resposta
+
             String errorMessage = e.getResponseBodyAsString();
             JOptionPane.showMessageDialog(this, "Falha no login: " + errorMessage);
         } catch (Exception e) {
@@ -106,9 +105,7 @@ public class UsuarioLoginGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Iniciar a API em uma thread separada
         new Thread(() -> SpringApplication.run(ImpressoraApplication.class, args)).start();
-        // Iniciar a interface gráfica
         SwingUtilities.invokeLater(() -> new UsuarioLoginGUI());
     }
 }
